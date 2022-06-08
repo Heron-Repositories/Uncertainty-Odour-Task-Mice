@@ -48,7 +48,8 @@ def initialise(worker_object):
 
     block_length_ranges = [int(i) for i in block_length_ranges_str.split(',')]
     create_new_block_sizes()
-    current_block = [np.random.randint(0, 2) for i in np.arange(4)]
+    #current_block = [np.random.randint(0, 2) for i in np.arange(4)]
+    current_block = [np.random.randint(0, 2) for i in np.arange(1)]
     reward_contingencies = [[float(i) for i in reward_contingencies_block1_str.split(',')],
                             [float(i) for i in reward_contingencies_block2_str.split(',')]]
     correct_licks = [0 for i in np.arange(4)]
@@ -82,7 +83,8 @@ def work_function(data, parameters):
     vis = parameters[0]
 
     message = data[1:]  # data[0] is the topic
-    message = Socket.reconstruct_array_from_bytes_message_cv2correction(message)
+    message = Socket.reconstruct_array_from_bytes_message(message)
+
 
     # If the message comes from the Trial controller
     if len(message) == 2:
@@ -100,12 +102,14 @@ def work_function(data, parameters):
             temp = copy.copy(current_block[previous_stim])
             current_block[previous_stim] = int(not current_block[previous_stim])
             correct_licks[previous_stim] = 0
-            print('Changing block of stim {}, from block {} to block {}'.format(previous_stim,
-                                                                                       temp,
-                                                                                       current_block[previous_stim]))
-            print('Current block lengths = {}'.format(lengths_block))
+            if vis:
+                print('Changing block of stim {}, from block {} to block {}'.format(previous_stim,
+                                                                                           temp,
+                                                                                           current_block[previous_stim]))
+                print('Current block lengths = {}'.format(lengths_block))
 
-    current_stim = np.random.randint(0, 4)
+    #current_stim = np.random.randint(0, 4)
+    current_stim = np.random.randint(0, 1)
     current_correct_reward_port_probability = reward_contingencies[current_block[current_stim]][current_stim]
     current_correct_reward_port = np.random.binomial(1, current_correct_reward_port_probability)
 

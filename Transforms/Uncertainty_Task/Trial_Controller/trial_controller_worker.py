@@ -36,8 +36,10 @@ inter_trial_window: float
 arduino_serial: serial.Serial
 trial_number: int
 
-stim_on_commands = [i.encode('utf-8') for i in ['q', 'e', 't', 'u']]
-stim_off_commands = [i.encode('utf-8') for i in ['w', 'r', 'y', 'i']]
+#stim_on_commands = [i.encode('utf-8') for i in ['q', 'e', 't', 'u']]
+stim_on_commands = [i.encode('utf-8') for i in ['q']]
+#stim_off_commands = [i.encode('utf-8') for i in ['w', 'r', 'y', 'i']]
+stim_off_commands = [i.encode('utf-8') for i in ['w']]
 reward_on_commands = [i.encode('utf-8') for i in ['a', 'd']]
 reward_off_commands = [i.encode('utf-8') for i in ['s', 'f']]
 # </editor-fold>
@@ -223,6 +225,7 @@ def work_function(data, parameters):
 
     if vis:
         print('ooo Starting ITI Delay {}'.format(iti))
+
     gu.accurate_delay(iti * 1000)
 
     end_iti_time = now()
@@ -231,6 +234,7 @@ def work_function(data, parameters):
               np.array([start_trial_time, open_stim_time, close_stim_time, start_response_time,
                         start_reward_time, end_reward_time, end_iti_time,
                         str(stim), str(reward_port), str(block_of_stim), str(correct_port_lick)])]
+
     if vis:
         print(' ooo Stim and Correct Port Lick = {}'.format(result[0]))
         print('============== Ended Trial {} ================'.format(trial_number))
